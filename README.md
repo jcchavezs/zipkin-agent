@@ -1,2 +1,3 @@
-# zipkin-agent
+# Zipkin Agent
+
 Agent for Zipkin V2
