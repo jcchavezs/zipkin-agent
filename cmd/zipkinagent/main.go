@@ -22,7 +22,7 @@ func main() {
 	}
 	defer l.Close()
 
-	fmt.Println("Listening on " + host + ":" + port)
+	fmt.Printf("Listening on %s:%s\n", host, port)
 
 	t := zipkinagent.NewLoggerTransporter()
 
@@ -43,14 +43,12 @@ func main() {
 	}
 }
 
-// Handles incoming requests.
 func handleRequest(conn net.Conn, c *zipkinagent.Collector) {
 	defer conn.Close()
 
 	spans := []zipkinagent.Span{}
 
 	d := json.NewDecoder(conn)
-
 	if err := d.Decode(&spans); err != nil {
 		fmt.Printf("Failed to decode incoming data: %s\n", err.Error())
 	}

@@ -2,4 +2,4 @@ run:
 	go run cmd/zipkinagent/main.go
 
 build:
-	go build cmd/zipkinagent/main.go
+	go build -o build/zipkin-agent cmd/zipkinagent/main.go
