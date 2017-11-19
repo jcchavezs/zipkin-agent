@@ -19,8 +19,8 @@ func NewLoggerTransporter() Transporter {
 	return &loggerTransport{}
 }
 
-func (t *loggerTransport) Send(s *[]Span) {
-	if b, err := json.MarshalIndent(s, "", "  "); err == nil {
+func (t *loggerTransport) Send(spans *[]Span) {
+	if b, err := json.MarshalIndent(spans, "", "  "); err == nil {
 		log.Printf("%s\n", string(b))
 	}
 }

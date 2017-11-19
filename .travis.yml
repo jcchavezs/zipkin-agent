@@ -10,3 +10,4 @@ install:
 
 script:
   - golint $(go list ./... | grep -v /vendor/)
+  - go test ./...
