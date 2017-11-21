@@ -10,3 +10,7 @@ install:
 
 script:
   - golint $(go list ./... | grep -v /vendor/)
+  - go test ./...
+
+after_success:
+  - test -n "$TRAVIS_TAG" && curl -sL https://git.io/goreleaser | bash

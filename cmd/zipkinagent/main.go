@@ -3,14 +3,16 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/jcchavezs/zipkin-agent"
 	"net"
 	"os"
+
+	"github.com/jcchavezs/zipkin-agent"
+	"github.com/jcchavezs/zipkin-agent/transport"
 )
 
 const (
 	host           = "localhost"
-	port           = "3333"
+	port           = "9412"
 	connectionType = "tcp"
 )
 
@@ -24,7 +26,13 @@ func main() {
 
 	fmt.Printf("Listening on %s:%s\n", host, port)
 
-	t := zipkinagent.NewLoggerTransporter()
+	tn := os.Getenv("TRANSPORT")
+
+	t, err := getTransporter(tn)
+	if err != nil {
+		fmt.Errorf("Failed when initializing the transport: %s\n", err.Error())
+		os.Exit(1)
+	}
 
 	c, err := zipkinagent.NewCollector(t)
 	if err != nil {
@@ -40,6 +48,21 @@ func main() {
 		}
 
 		go handleRequest(conn, c)
+	}
+}
+func getTransporter(transportName string) (zipkinagent.Transporter, error) {
+	switch transportName {
+	case "logger":
+		fmt.Printf("Sending to logs\n")
+		return zipkinagent.NewLoggerTransporter(), nil
+	default:
+		url := os.Getenv("TRANSPORT_HTTP_URL")
+		if url == "" {
+			url = "http://localhost:9411/api/v2/spans"
+		}
+
+		fmt.Printf("Sending over http to endpoint %s\n", url)
+		return transport.NewHttpTransporter(url), nil
 	}
 }
 

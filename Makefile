@@ -1,3 +1,5 @@
+.PHONY: build
+
 run:
 	go run cmd/zipkinagent/main.go
 

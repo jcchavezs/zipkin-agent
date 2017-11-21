@@ -20,8 +20,8 @@ type Span struct {
 	Kind           string            `json:"kind,omitempty"`
 	Timestamp      int64             `json:"timestamp,omitempty"`
 	Duration       int64             `json:"duration,omitempty"`
-	Debug          bool              `json:"debug"`
-	Shared         bool              `json:"shared"`
+	Debug          bool              `json:"debug,omitempty"`
+	Shared         bool              `json:"shared,omitempty"`
 	LocalEndpoint  *Endpoint         `json:"localEndpoint,omitempty"`
 	RemoteEndpoint *Endpoint         `json:"remoteEndpoint,omitempty"`
 	Annotations    []Annotation      `json:"annotations,omitempty"`
