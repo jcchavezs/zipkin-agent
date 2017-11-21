@@ -2,10 +2,19 @@
 
 [![Build Status](https://travis-ci.org/jcchavezs/zipkin-agent.svg?branch=master)](https://travis-ci.org/jcchavezs/zipkin-agent)
 
-This is an agent that should run in the same host of the application in order to reduce the load
-on the zipkin server.
+The aim of this agent is to do bulk reporting of spans over the transport.
+
+The main use cases for this agent is:
+- To reduce the load on the server on situations where there is direct reporting. For example
+on PHP where the reporting should be done right after the request is served.
+- To reduce the load on transports that act as middleware between the client and the server, for example Kafka.
+- To act as a buffer when having limited or fragile connectivity to the server.
 
 ## Installation
+
+### Binary
+
+You can download the binary for every release on the [releases page](https://github.com/jcchavezs/zipkin-agent/releases)
 
 ### Golang
 ```bash
@@ -24,7 +33,7 @@ You can run the agent by:
 zipkin-agent
 ```
 
-the default transport is the standard stdout but you can also define the transport:
+the default transport is http but you can also define the transport:
 ```bash
-TRANSPORT=http zipkin-agent
+TRANSPORT=logger zipkin-agent
 ```

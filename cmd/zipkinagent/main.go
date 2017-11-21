@@ -52,7 +52,10 @@ func main() {
 }
 func getTransporter(transportName string) (zipkinagent.Transporter, error) {
 	switch transportName {
-	case "http":
+	case "logger":
+		fmt.Printf("Sending to logs\n")
+		return zipkinagent.NewLoggerTransporter(), nil
+	default:
 		url := os.Getenv("TRANSPORT_HTTP_URL")
 		if url == "" {
 			url = "http://localhost:9411/api/v2/spans"
@@ -60,9 +63,6 @@ func getTransporter(transportName string) (zipkinagent.Transporter, error) {
 
 		fmt.Printf("Sending over http to endpoint %s\n", url)
 		return transport.NewHttpTransporter(url), nil
-	default:
-		fmt.Printf("Sending to logs\n")
-		return zipkinagent.NewLoggerTransporter(), nil
 	}
 }
 
